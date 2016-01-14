@@ -1,0 +1,27 @@
+{
+	"ImportPath": "github.com/cdupuis/strava/activity-namer",
+	"GoVersion": "go1.5",
+	"Deps": [
+		{
+			"ImportPath": "github.com/boltdb/bolt",
+			"Comment": "v1.1.0-57-g4030e7f",
+			"Rev": "4030e7fbc16465ec02334c93396b57629438096e"
+		},
+		{
+			"ImportPath": "github.com/strava/go.strava",
+			"Rev": "df88748348272fade90febe63bc8a847dd6c4aaa"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "341cd0845b5a19165f12976d7915847a71037135"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "442cd600860ce722f6615730eb008a37a87b13ee"
+		},
+		{
+			"ImportPath": "googlemaps.github.io/maps",
+			"Rev": "68d484252f4e07a8efee1b7a0d64c4cbed1bdf9b"
+		}
+	]
+}

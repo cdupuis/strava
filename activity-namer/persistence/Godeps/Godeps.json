@@ -1,0 +1,15 @@
+{
+	"ImportPath": "github.com/cdupuis/strava/activity-namer/persistence",
+	"GoVersion": "go1.5",
+	"Deps": [
+		{
+			"ImportPath": "github.com/boltdb/bolt",
+			"Comment": "v1.1.0-57-g4030e7f",
+			"Rev": "4030e7fbc16465ec02334c93396b57629438096e"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "442cd600860ce722f6615730eb008a37a87b13ee"
+		}
+	]
+}
