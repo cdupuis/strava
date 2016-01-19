@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"regexp"
+	"strconv"
 
 	"github.com/cdupuis/strava/activity-namer/Godeps/_workspace/src/github.com/strava/go.strava"
 	"github.com/cdupuis/strava/activity-namer/Godeps/_workspace/src/golang.org/x/net/context"
@@ -15,8 +17,9 @@ import (
 func main() {
 
 	// set up command line options
-	var stravaAccessToken, mapsAccessToken, resetCommuteCounter string
-	flag.StringVar(&resetCommuteCounter, "reset-commute-counter", "", "Reset Commute Counter")
+	var stravaAccessToken, mapsAccessToken string
+	var resetCommuteCounter bool
+	flag.BoolVar(&resetCommuteCounter, "reset-commute-counter", true, "Reset Commute Counter")
 	flag.StringVar(&stravaAccessToken, "strava-token", os.Getenv("STRAVA_TOKEN"), "Strava Access Token")
 	flag.StringVar(&mapsAccessToken, "maps-token", os.Getenv("MAPS_TOKEN"), "Google Maps Access Token")
 	flag.Parse()
@@ -39,8 +42,6 @@ func main() {
 	db := &persistence.DB{Store: persistence.Open()}
 	defer db.Close()
 
-	// reset in the internal counter if asked
-	reset(db, resetCommuteCounter)
 
 	mapsClient, err := maps.NewClient(maps.WithAPIKey(mapsAccessToken))
 	if err != nil {
@@ -55,6 +56,9 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+
+	// reset in the internal counter if asked
+	reset(db, resetCommuteCounter, activities)
 
 	for _, e := range activities {
 
@@ -86,11 +90,34 @@ func main() {
 	}
 }
 
-func reset(db *persistence.DB, commuteCounter string) {
-	if commuteCounter != "" {
-		db.Reset(commuteCounter)
+func reset(db *persistence.DB, resetCommuteCounter bool, activities []*strava.ActivitySummary) {
+	if resetCommuteCounter {
+
+		re, err := regexp.Compile(`.#(\d+).`)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+
+		var commuteCounter int64
+
+		for _, e := range activities {
+    		res := re.FindAllStringSubmatch(e.Name, -1)
+    		if res != nil {
+    			intCounter, err := strconv.ParseInt(res[0][1], 10, 8)
+				if err != nil {
+					fmt.Println(err)
+					os.Exit(1)
+				}
+
+				if intCounter > commuteCounter {
+					commuteCounter = intCounter
+				}
+    		}
+    	}
+
+		db.Reset(strconv.FormatInt(commuteCounter, 10))
 		fmt.Printf("Resetting Commute Counter to %s\n", db.Read())
-		os.Exit(0)
 	}
 }
 
