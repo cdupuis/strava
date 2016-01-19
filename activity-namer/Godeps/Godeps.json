@@ -4,8 +4,8 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/boltdb/bolt",
-			"Comment": "v1.1.0-57-g4030e7f",
-			"Rev": "4030e7fbc16465ec02334c93396b57629438096e"
+			"Comment": "v1.1.0-61-g6465994",
+			"Rev": "6465994716bf6400605746e79224cf1e7ed68725"
 		},
 		{
 			"ImportPath": "github.com/strava/go.strava",
@@ -13,7 +13,7 @@
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
-			"Rev": "341cd0845b5a19165f12976d7915847a71037135"
+			"Rev": "72aa00c6241a8013dc9b040abb45f57edbe73945"
 		},
 		{
 			"ImportPath": "golang.org/x/sys/unix",
