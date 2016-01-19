@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"strings"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/cdupuis/strava/activity-namer/Godeps/_workspace/src/github.com/strava/go.strava"
 	"github.com/cdupuis/strava/activity-namer/Godeps/_workspace/src/golang.org/x/net/context"
@@ -41,7 +41,6 @@ func main() {
 	// open the persistence backend
 	db := &persistence.DB{Store: persistence.Open()}
 	defer db.Close()
-
 
 	mapsClient, err := maps.NewClient(maps.WithAPIKey(mapsAccessToken))
 	if err != nil {
@@ -102,9 +101,9 @@ func reset(db *persistence.DB, resetCommuteCounter bool, activities []*strava.Ac
 		var commuteCounter int64
 
 		for _, e := range activities {
-    		res := re.FindAllStringSubmatch(e.Name, -1)
-    		if res != nil {
-    			intCounter, err := strconv.ParseInt(res[0][1], 10, 8)
+			res := re.FindAllStringSubmatch(e.Name, -1)
+			if res != nil {
+				intCounter, err := strconv.ParseInt(res[0][1], 10, 8)
 				if err != nil {
 					fmt.Println(err)
 					os.Exit(1)
@@ -113,8 +112,8 @@ func reset(db *persistence.DB, resetCommuteCounter bool, activities []*strava.Ac
 				if intCounter > commuteCounter {
 					commuteCounter = intCounter
 				}
-    		}
-    	}
+			}
+		}
 
 		db.Reset(strconv.FormatInt(commuteCounter, 10))
 		fmt.Printf("Resetting Commute Counter to %s\n", db.Read())
