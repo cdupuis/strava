@@ -76,7 +76,7 @@ func main() {
 			name += e.Name
 
 			s := strava.NewActivitiesService(client)
-			_, err = s.Update(e.Id).Name(name).Do()
+			_, err = s.Update(e.Id).Name(name).Private(e.Private).Do()
 			if err != nil {
 				fmt.Println(err)
 			}
